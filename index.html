@@ -4146,6 +4146,7 @@ function renderSidebar() {
           <button class="nav-item" onclick="showFreeProducts()"><i class="fas fa-gift"></i> Free Products</button>
         ` : ""}
         <button class="nav-item" onclick="showTrendingProducts()"><i class="fas fa-chart-line"></i> Trends</button>
+        ${state.user && !isManager ? `<button class="nav-item" onclick="setView('gallery'); toggleSidebar(false)"><i class="fas fa-images"></i> Gallery</button>` : ""}
         ${state.user ? `<button class="nav-item" onclick="openBagView()"><i class="fas fa-bag-shopping"></i> My Bag (${bagCount})</button>` : ""}
       </nav>
       <div class="sidebar-footer">
@@ -4871,10 +4872,12 @@ function renderProducts() {
 }
 
 function renderGallery() {
-  if (!canManageProducts()) { state.view = "home"; renderMain(); return ""; }
+  if (!state.user) { state.view = "home"; renderMain(); return ""; }
   const products = isAdminUser()
     ? state.products
-    : state.products.filter(product => product.agentId === state.user?.agentId);
+    : state.user.role === "agent"
+      ? state.products.filter(product => product.agentId === state.user?.agentId)
+      : state.products.filter(canViewProductInListings);
   return `
     <section class="gallery-section">
       <h2 class="section-title"><i class="fas fa-images text-accent"></i><span>Posted Gallery</span><span class="section-count">${products.length} item${products.length !== 1 ? "s" : ""}</span></h2>
@@ -5023,16 +5026,25 @@ function createMkekaExport(exportName) {
   const date = new Date();
   const dateStamp = date.toISOString().slice(0, 10);
   const filename = `mauzo-ya-${exportName}_${dateStamp}`;
+  const salesGrandTotal = sales.reduce((sum, sale) => sum + Number(sale.total || 0), 0);
   if (window.XLSX) {
     const sheet = XLSX.utils.json_to_sheet(rows);
-    XLSX.utils.sheet_add_aoa(sheet, [[], ["Export date", date.toLocaleString()], ["Export name", exportName], ["Records", sales.length]], { origin: -1 });
+    const lastRecordRow = rows.length + 1;
+    XLSX.utils.sheet_add_aoa(sheet, [
+      ["", "", "", "", "", "", "", "Total Sales", { f: `SUM(I2:I${lastRecordRow})` }],
+      [],
+      ["Export date", date.toLocaleString()],
+      ["Export name", exportName],
+      ["Records", sales.length],
+    ], { origin: -1 });
     sheet["!cols"] = [{ wch: 6 }, { wch: 14 }, { wch: 28 }, { wch: 20 }, { wch: 18 }, { wch: 16 }, { wch: 16 }, { wch: 18 }, { wch: 18 }, { wch: 23 }];
     const book = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(book, sheet, "Sales");
     XLSX.writeFile(book, `${filename}.xlsx`);
   } else {
     const headers = Object.keys(rows[0]);
-    const csv = [headers.join(","), ...rows.map(row => headers.map(key => `"${String(row[key]).replaceAll('"', '""')}"`).join(",")), "", `Export date,${date.toLocaleString()}`, `Export name,${exportName}`, `Records,${sales.length}`].join("\n");
+    const csvTotalRow = ["", "", "", "", "", "", "", "Total Sales", salesGrandTotal, ""].join(",");
+    const csv = [headers.join(","), ...rows.map(row => headers.map(key => `"${String(row[key]).replaceAll('"', '""')}"`).join(",")), csvTotalRow, "", `Export date,${date.toLocaleString()}`, `Export name,${exportName}`, `Records,${sales.length}`].join("\n");
     const link = document.createElement("a");
     link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
     link.download = `${filename}.csv`;
