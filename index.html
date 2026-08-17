@@ -968,8 +968,7 @@ main {
   color: hsl(var(--muted-foreground));
 }
 
-.image-choice-overlay,
-.product-modal-slider {
+.image-choice-overlay {
   z-index: 1200;
 }
 
@@ -1010,6 +1009,7 @@ main {
 
 .product-modal-slider {
   position: relative;
+  z-index: 1;
   overflow: hidden;
   border-radius: 1rem;
   touch-action: pan-y;
@@ -1875,7 +1875,8 @@ main {
   flex-wrap: wrap;
 }
 
-.product-admin-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.product-admin-actions { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; margin-top: 14px; }
+.product-admin-actions .sale-cash-btn { margin-left: auto; flex: 0 0 auto; }
 
 .trending-picker {
   position: absolute;
@@ -2873,6 +2874,105 @@ body.intro-video-open { overflow: hidden; }
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 
+  /* Front-end updates mirrored from the Django storefront. */
+  .header-actions { display:flex; align-items:center; gap:10px; }
+  .theme-btn { display:flex; align-items:center; justify-content:center; width:33px; height:33px; border:0; border-radius:50%; background:hsl(var(--muted)); color:hsl(var(--foreground)); cursor:pointer; transition:transform .1s; }
+  .theme-btn:active { transform:scale(.95); }
+  .carousel-section { position:relative; overflow:hidden; }
+  .carousel-slide { background:transparent; position:relative; isolation:isolate; overflow:hidden; }
+  .carousel-slide::before,.carousel-slide::after { content:""; position:absolute; inset:0; pointer-events:none; }
+  .carousel-slide::before { background:url("https://res.cloudinary.com/dcpqnmdas/image/upload/v1780684558/presents_ritccr.png") center/cover no-repeat; opacity:.04; z-index:0; }
+  .carousel-slide::after { background:hsl(var(--card) / 0); z-index:1; }
+  .carousel-slide > * { position:relative; z-index:2; }
+  .carousel-pattern-layer { position:absolute; inset:0; z-index:0; width:100%; height:100%; pointer-events:none; transition:opacity .8s ease,filter .8s ease; }
+  .carousel-pattern-layer svg { width:100%; height:100%; display:block; }
+  .carousel-gradient-layer { position:absolute; inset:0; z-index:1; pointer-events:none; transition:background .8s ease,opacity .8s ease; opacity:.88; mix-blend-mode:multiply; }
+  .carousel-track,.carousel-dots { position:relative; z-index:2; }
+  .carousel-pattern-layer.fading,.carousel-gradient-layer.fading { opacity:0; }
+  body.dark { --background:214 45% 9%; --foreground:210 30% 94%; --card:214 42% 13%; --card-foreground:210 30% 94%; --popover:214 42% 13%; --popover-foreground:210 30% 94%; --primary:156 49% 38%; --primary-foreground:210 30% 96%; --secondary:214 38% 18%; --secondary-foreground:210 30% 88%; --muted:214 38% 17%; --muted-foreground:213 22% 58%; --accent:32 95% 50%; --border:214 30% 20%; --input:214 30% 20%; --sidebar-background:214 45% 7%; --sidebar-foreground:210 30% 90%; --sidebar-primary:158 60% 50%; --sidebar-accent:214 38% 17%; --sidebar-border:214 30% 16%; background:radial-gradient(ellipse 90% 60% at 10% 0%,hsl(158 50% 18% / .32),transparent 55%),radial-gradient(ellipse 70% 50% at 92% 85%,hsl(32 95% 44% / .14),transparent 50%),hsl(214 50% 5%); background-attachment:fixed; }
+  body.dark header { background:hsl(214 45% 8% / .96); }
+  body.dark .carousel-section,.dark .product-card,.dark .dashboard-section,.dark .category-card { box-shadow:0 4px 24px hsl(214 50% 4% / .4); }
+  body.dark .carousel-desc { color:hsl(0 0% 100%); }
+  body.dark .product-modal-close,body.dark .product-slider-nav { background:hsl(214 42% 14% / .94); color:hsl(0 0% 100%); border:1px solid hsl(0 0% 100% / .18); box-shadow:0 12px 28px hsl(214 50% 4% / .5); }
+  .product-modal-close { z-index:5; display:grid; place-items:center; }
+  .product-slider-nav { z-index:3; }
+  .product-modal-close i,.product-slider-nav i { display:block; color:inherit; }
+  body.dark .input-field,body.dark .category-select { background:hsl(214 40% 10%); color:hsl(var(--foreground)); border-color:hsl(214 30% 24%); }
+  body.dark .product-card,body.dark .dashboard-section,body.dark .category-card,body.dark .agent-card { background:hsl(var(--card)); border-color:hsl(var(--border)); }
+  body.dark .modal-content,body.dark .auth-modal,body.dark .agent-modal,body.dark .promo-modal { background:hsl(var(--card)); color:hsl(var(--foreground)); }
+  body.dark .sidebar { background:hsl(214 45% 7% / .98); border-right:1px solid hsl(var(--sidebar-border)); box-shadow:4px 0 32px hsl(214 50% 4% / .6); }
+  body.dark .sidebar-overlay { background:hsl(214 50% 4% / .7); backdrop-filter:blur(4px); }
+  body.dark .nav-item { background:hsl(214 38% 14%); color:hsl(var(--sidebar-foreground)); }
+  body.dark .nav-item:hover,.dark .nav-item:active { background:hsl(214 38% 20%); }
+  body.dark .sidebar-close { color:hsl(var(--sidebar-foreground)); }
+  body.dark .user-info { background:hsl(214 38% 16%); color:hsl(var(--sidebar-foreground)); }
+  body.dark .sidebar-footer-text,.dark .user-role { color:hsl(213 22% 64%); }
+  .gallery-section { margin:12px; }
+  @media (min-width:640px) { .gallery-section { margin:20px; } }
+  @media (min-width:768px) { .gallery-section { margin:40px; } }
+  .gallery-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  @media (min-width:560px) { .gallery-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+  @media (min-width:900px) { .gallery-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+  .gallery-item { position:relative; min-height:150px; padding:0; overflow:hidden; border:1px solid hsl(var(--border)); border-radius:1rem; background:hsl(var(--card)); cursor:pointer; text-align:left; }
+  .gallery-item img { display:block; width:100%; height:100%; min-height:150px; object-fit:cover; transition:transform .25s ease; }
+  .gallery-item:hover img { transform:scale(1.04); }
+  .gallery-item-title { position:absolute; right:0; bottom:0; left:0; padding:24px 10px 10px; color:white; font-weight:800; font-size:.8rem; background:linear-gradient(transparent,rgba(0,0,0,.75)); }
+  .sale-overlay { position:fixed; inset:0; z-index:1300; display:grid; place-items:center; padding:16px; background:hsl(var(--foreground) / .58); backdrop-filter:blur(5px); }
+  .sale-card { width:min(100%,380px); padding:24px; border-radius:1.25rem; background:hsl(var(--card)); color:hsl(var(--foreground)); box-shadow:0 24px 60px hsl(222 47% 11% / .3); }
+  .sale-card h3 { margin:0 0 8px; }
+  .sale-card p { margin:0 0 16px; color:hsl(var(--muted-foreground)); }
+  .sale-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:16px; }
+  .sale-discount-choice { display:flex; gap:8px; margin:8px 0 12px; }
+  .sale-discount-choice button { flex:1; }
+  .sale-discount-price[hidden] { display:none; }
+  .export-history { display:grid; gap:7px; max-height:160px; margin:14px 0; overflow:auto; }
+  .export-history-item { display:flex; justify-content:space-between; gap:10px; padding:9px 10px; border:1px solid hsl(var(--border)); border-radius:.7rem; background:hsl(var(--muted) / .3); font-size:.76rem; }
+  .export-history-item small { color:hsl(var(--muted-foreground)); white-space:nowrap; }
+  .sale-cash-btn { background:hsl(var(--success)); color:hsl(var(--success-foreground)); }
+  .sale-dollar-icon { display:inline-block; font-size:1.1rem; line-height:1; }
+  .export-history { max-height:170px; margin:14px 0; overflow:auto; border:1px solid hsl(var(--border)); border-radius:.8rem; }
+  .export-history-item { display:flex; justify-content:space-between; gap:10px; padding:9px 11px; border-bottom:1px solid hsl(var(--border)); font-size:.75rem; }
+  .export-history-item:last-child { border-bottom:0; }
+  .export-history-date { color:hsl(var(--muted-foreground)); white-space:nowrap; }
+  .mkeka-section { --mkeka-zoom:1; --mkeka-font:.82rem; --mkeka-head-font:.70rem; --mkeka-cell-x:16px; --mkeka-cell-y:14px; margin:12px; }
+  @media (min-width:640px) { .mkeka-section { margin:20px; } }
+  @media (min-width:768px) { .mkeka-section { margin:40px; } }
+  .mkeka-card { overflow:hidden; border:1px solid hsl(var(--border)); border-radius:1.25rem; background:hsl(var(--card)); box-shadow:0 6px 24px hsl(222 47% 11% / .06); }
+  .mkeka-toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 16px; border-bottom:1px solid hsl(var(--border)); }
+  .mkeka-toolbar-controls { display:flex; align-items:center; justify-content:flex-end; gap:10px; min-width:0; }
+  .mkeka-filter-control { display:flex; align-items:center; gap:7px; color:hsl(var(--muted-foreground)); font-size:.75rem; font-weight:700; white-space:nowrap; }
+  .mkeka-filter-control select { height:36px; max-width:155px; padding:0 28px 0 9px; color:hsl(var(--foreground)); background:hsl(var(--card)); border:1px solid hsl(var(--border)); border-radius:.5rem; outline:0; }
+  .mkeka-filter-control select:focus { border-color:hsl(var(--primary)); box-shadow:0 0 0 3px hsl(var(--primary) / .12); }
+  .mkeka-search { display:flex; flex:1; align-items:center; gap:9px; max-width:480px; padding:0 12px; border:1px solid hsl(var(--border)); border-radius:.75rem; background:hsl(var(--muted) / .42); color:hsl(var(--muted-foreground)); }
+  .mkeka-search input { width:100%; height:40px; border:0; outline:0; color:hsl(var(--foreground)); background:transparent; }
+  .mkeka-count { color:hsl(var(--muted-foreground)); font-size:.8rem; font-weight:700; white-space:nowrap; }
+  .mkeka-table-wrap { width:100%; max-width:100%; overflow-x:auto; overscroll-behavior-inline:contain; }
+  .mkeka-table { width:max-content; min-width:0; border-spacing:0; border-collapse:separate; font-size:calc(var(--mkeka-font) * var(--mkeka-zoom)); transform:scale(var(--mkeka-zoom)); transform-origin:top left; }
+  .mkeka-table th,.mkeka-table td { padding:calc(var(--mkeka-cell-y) * var(--mkeka-zoom)) calc(var(--mkeka-cell-x) * var(--mkeka-zoom)); border-bottom:1px solid hsl(var(--border)); text-align:left; white-space:nowrap; }
+  .mkeka-table th { color:hsl(var(--muted-foreground)); background:hsl(var(--muted) / .45); font-size:calc(var(--mkeka-head-font) * var(--mkeka-zoom)); letter-spacing:.05em; text-transform:uppercase; }
+  .mkeka-table td { max-width:220px; overflow:hidden; font-size:inherit; text-overflow:ellipsis; }
+  .mkeka-table tbody tr:hover { background:hsl(var(--muted) / .28); }
+  .mkeka-total { display:flex; justify-content:space-between; gap:16px; margin-top:16px; padding:18px; border-radius:1.1rem; background:hsl(var(--primary)); color:hsl(var(--primary-foreground)); }
+  .mkeka-total span { display:block; font-size:.74rem; opacity:.82; }
+  .mkeka-total strong { display:block; margin-top:3px; font-size:1.2rem; }
+  .mkeka-bottom { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; width:100%; margin:18px auto 0; }
+  .mkeka-summary { flex:1 1 440px; overflow:hidden; padding:0; }
+  .mkeka-summary-header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 16px; border-bottom:1px solid hsl(var(--border)); }
+  .mkeka-summary h3,.mkeka-danger h3 { margin:0; font-size:.95rem; letter-spacing:-.2px; }
+  .mkeka-summary-total { display:grid; min-width:26px; height:24px; padding:0 7px; place-items:center; color:hsl(var(--success)); background:hsl(var(--success) / .14); border-radius:999px; font-size:.75rem; font-weight:750; }
+  .mkeka-product-list { display:grid; gap:0; max-height:260px; overflow:auto; }
+  .mkeka-product-row { display:flex; justify-content:space-between; gap:14px; padding:10px 16px; border-bottom:1px solid hsl(var(--border)); font-size:.82rem; }
+  .mkeka-product-row:last-child { border-bottom:0; }
+  .mkeka-danger { flex:0 1 280px; min-width:230px; padding:16px; border:1px solid hsl(var(--destructive) / .35); border-radius:1rem; background:hsl(var(--card)); box-shadow:0 6px 24px hsl(222 47% 11% / .04); }
+  .mkeka-danger p { margin:7px 0 14px; color:hsl(var(--muted-foreground)); font-size:.75rem; line-height:1.45; }
+  .mkeka-delete { color:hsl(var(--destructive)); background:hsl(var(--destructive) / .1); border:1px solid hsl(var(--destructive) / .2); }
+  .mkeka-pagination { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:6px; padding:14px 16px; }
+  .mkeka-page-btn { min-width:34px; height:34px; border:1px solid hsl(var(--border)); border-radius:.5rem; background:hsl(var(--card)); color:hsl(var(--foreground)); cursor:pointer; }
+  .mkeka-page-btn.active { background:hsl(var(--primary)); color:hsl(var(--primary-foreground)); }
+  @media (max-width:900px) { .mkeka-section { --mkeka-zoom:.90; --mkeka-cell-x:10px; --mkeka-cell-y:13px; } .mkeka-toolbar { flex-wrap:wrap; } }
+  @media (max-width:600px) { .mkeka-section { --mkeka-zoom:.80; --mkeka-font:.78rem; --mkeka-head-font:.62rem; --mkeka-cell-x:6px; --mkeka-cell-y:13px; } .mkeka-toolbar { align-items:stretch; flex-direction:column; gap:10px; padding:11px; } .mkeka-search { max-width:none; } .mkeka-toolbar-controls { display:grid; grid-template-columns:minmax(0,1fr) auto auto; width:100%; gap:6px; } .mkeka-filter-control { display:grid; grid-template-columns:auto minmax(0,1fr); gap:4px; font-size:.65rem; } .mkeka-filter-control select { width:100%; min-width:0; max-width:none; height:32px; padding:0 18px 0 6px; font-size:.7rem; } .mkeka-count { display:flex; align-items:center; justify-content:flex-end; gap:6px; font-size:.65rem; } .mkeka-count .product-icon-btn { min-width:0; height:32px; padding:6px 8px; font-size:.65rem; } .mkeka-table td { max-width:145px; } .mkeka-pagination { justify-content:center; padding:11px; } .mkeka-total { margin-top:14px; padding:14px; } }
+  @media (max-width:380px) { .mkeka-section { --mkeka-zoom:.72; --mkeka-cell-x:4px; --mkeka-cell-y:12px; } .mkeka-table td { max-width:120px; } .mkeka-toolbar { gap:4px; } }
+  @media (max-width:600px) { .mkeka-bottom { flex-direction:row; gap:8px; margin-top:14px; } .mkeka-summary { flex:1 1 0; width:auto; min-width:0; } .mkeka-danger { flex:0 0 118px; width:auto; min-width:0; padding:12px 8px; } .mkeka-summary h3,.mkeka-danger h3 { font-size:.8rem; } .mkeka-danger p { font-size:.62rem; } .mkeka-danger .cancel-btn { width:100%; height:34px; padding:0 5px; font-size:.66rem; } .mkeka-summary-header { padding:12px 10px; } .mkeka-product-row { padding:8px 10px; font-size:.68rem; } }
   </style>
 </head>
 <body>
@@ -2880,6 +2980,7 @@ body.intro-video-open { overflow: hidden; }
   <div id="toast-container"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script>
 
 // ============================================================
@@ -2913,6 +3014,8 @@ const PROMO_ARCHIVE_OPEN_KEY = "lomi_promo_archive_open";
 const SESSION_KEY   = "lomi_session";
 const SETTINGS_KEY  = "lomi_settings";
 const BAG_KEY_PREFIX = "lomi_bag";
+const SALES_KEY = "lomi_sales_records";
+const EXPORT_HISTORY_KEY = "lomi_mkeka_export_history";
 
 // ====== LOCAL STORAGE HELPERS ======
 function loadProducts() {
@@ -2936,6 +3039,28 @@ function saveProducts() {
   try {
     localStorage.setItem(PRODUCTS_KEY, JSON.stringify(state.products));
   } catch (e) { console.warn("saveProducts failed:", e); }
+}
+
+function loadSales() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SALES_KEY) || "[]");
+    return Array.isArray(saved) ? saved : [];
+  } catch { return []; }
+}
+
+function saveSales() {
+  try { localStorage.setItem(SALES_KEY, JSON.stringify(state.sales)); }
+  catch (error) { console.warn("saveSales failed:", error); }
+}
+
+function loadExportHistory() {
+  try { const saved = JSON.parse(localStorage.getItem(EXPORT_HISTORY_KEY) || "[]"); return Array.isArray(saved) ? saved : []; }
+  catch { return []; }
+}
+
+function saveExportHistory() {
+  try { localStorage.setItem(EXPORT_HISTORY_KEY, JSON.stringify(state.exportHistory)); }
+  catch (error) { console.warn("saveExportHistory failed:", error); }
 }
 
 // NOTE: loadUsers / saveUsers are for non-admin local accounts only.
@@ -3628,6 +3753,12 @@ let state = {
   products: [],
   agents: [],
   promotions: [],
+  sales: [],
+  salesSearch: "",
+  salesFilter: "product",
+  salesPage: 1,
+  exportHistory: [],
+  exportModalOpen: false,
   search: "",
   category: "all",
   productFilter: "all",
@@ -3658,6 +3789,7 @@ let state = {
   dashboardFormData: {},
   bagProductIds: [],
   bagPromptProductId: null,
+  saleProductId: null,
 };
 
 const carouselBadgeOptions = {
@@ -3762,6 +3894,15 @@ function toast(message, type = "success") {
 let carouselIndex = 0;
 let carouselInterval = null;
 let introVideoClosed = false;
+const CAROUSEL_THEMES = [
+  { gradient: "linear-gradient(135deg, hsl(48 96% 95%) 0%, hsl(0 99% 50%) 100%)", patternColor: "220, 30, 30", patternOpacity: .13 },
+  { gradient: "linear-gradient(135deg, hsl(180 80% 94%) 0%, hsl(196 86% 38%) 100%)", patternColor: "10, 130, 160", patternOpacity: .12 },
+  { gradient: "linear-gradient(135deg, hsl(270 80% 96%) 0%, hsl(262 72% 48%) 100%)", patternColor: "100, 30, 200", patternOpacity: .12 },
+  { gradient: "linear-gradient(135deg, hsl(140 60% 94%) 0%, hsl(158 64% 28%) 100%)", patternColor: "20, 120, 60", patternOpacity: .11 },
+  { gradient: "linear-gradient(135deg, hsl(44 100% 94%) 0%, hsl(28 95% 48%) 100%)", patternColor: "210, 100, 10", patternOpacity: .13 },
+  { gradient: "linear-gradient(135deg, hsl(340 80% 96%) 0%, hsl(334 82% 52%) 100%)", patternColor: "200, 30, 100", patternOpacity: .12 },
+  { gradient: "linear-gradient(135deg, hsl(220 60% 96%) 0%, hsl(222 60% 28%) 100%)", patternColor: "20, 40, 140", patternOpacity: .12 }
+];
 
 // ====== HELPERS ======
 function $(sel) { return document.querySelector(sel); }
@@ -3933,6 +4074,8 @@ function render() {
   renderAgentModal();
   renderPromoModal();
   renderPromoSettingsModal();
+  renderSaleModal();
+  renderExportModal();
   renderProductModal();
   renderBagConfirmModal();
   renderInfoModal();
@@ -3944,19 +4087,31 @@ function render() {
 function renderHeader() {
   const app = $("#app");
   let header = $("header");
-  if (!header) {
-    header = document.createElement("header");
-    header.className = "sticky";
-    header.innerHTML = `
+  if (header) header.remove();
+  header = document.createElement("header");
+  header.className = "sticky";
+  header.innerHTML = `
       <div class="header-logo" onclick="setView('home')">
         <span>🛍</span>
         <span class="text-brand">Lomi-Store</span>
       </div>
-      <button class="menu-btn" onclick="toggleSidebar(true)" aria-label="Open menu">
-        <span></span><span></span><span></span>
-      </button>`;
-    app.prepend(header);
-  }
+      <div class="header-actions">
+        <button id="theme-toggle-btn" class="theme-btn" onclick="toggleThemeIcon()" aria-label="Toggle dark mode"><i class="fa-solid ${document.body.classList.contains("dark") ? "fa-sun" : "fa-moon"}"></i></button>
+        <button class="menu-btn" onclick="toggleSidebar(true)" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>`;
+  app.prepend(header);
+}
+
+function toggleThemeIcon() {
+  const isDark = document.body.classList.toggle("dark");
+  localStorage.setItem("lomi-theme", isDark ? "dark" : "light");
+  const icon = $("#theme-toggle-btn i");
+  if (icon) icon.className = `fa-solid ${isDark ? "fa-sun" : "fa-moon"}`;
+}
+
+function restoreTheme() {
+  const isDark = localStorage.getItem("lomi-theme") === "dark";
+  document.body.classList.toggle("dark", isDark);
 }
 
 function renderSidebar() {
@@ -3982,6 +4137,8 @@ function renderSidebar() {
         <button class="nav-item" onclick="goToSearch()"><i class="fas fa-search"></i> Search</button>
         ${isManager ? `
           <button class="nav-item" onclick="setView('dashboard'); toggleSidebar(false)"><i class="fas fa-tachometer-alt"></i> Dashboard</button>
+          <button class="nav-item" onclick="setView('gallery'); toggleSidebar(false)"><i class="fas fa-images"></i> Gallery</button>
+          <button class="nav-item" onclick="setView('mkeka'); toggleSidebar(false)"><i class="fas fa-receipt"></i> Mkeka</button>
           ${isAdmin ? `<button class="nav-item" onclick="openAgentsDashboard()"><i class="fas fa-user-plus"></i> Agents</button>` : ""}
           ${isAdmin ? `<button class="nav-item" onclick="openPromoDashboard()"><i class="fas fa-bullhorn"></i> Promo</button>` : ""}
           ${isAdmin ? `<button class="nav-item" onclick="openClaimedProductsView()"><i class="fas fa-clipboard-check"></i> Claimed Products</button>` : ""}
@@ -4230,6 +4387,7 @@ function renderProductModal() {
   const whatsappLink = normalizeWhatsAppContactLink(prod.whatsappLink);
   const locationLink = buildDirectionsUrl(prod.locationLink || state.settings.defaultLocationLink);
   const isAdmin      = canManageProducts();
+  const canModify    = canModifyProduct(prod);
   const trendingAccess = getTrendingAccessState(prod);
   const canManageTrending = trendingAccess.allowed;
   const showTrendingControl = trendingAccess.showControl;
@@ -4314,7 +4472,8 @@ function renderProductModal() {
             <button class="product-icon-btn trending-toggle-btn" type="button" onclick="removeFromTrending('${prod.id}')">
               <i class="fas fa-xmark"></i><span>Remove Trending</span>
             </button>` : ""}
-          </div>` : ""}
+            ${canModify ? `<button class="product-icon-btn sale-cash-btn" type="button" onclick="openSaleModal('${prod.id}')" title="Record sale"><span class="sale-dollar-icon" aria-hidden="true">💵</span><span>Sell</span></button>` : ""}
+          </div>` : canModify ? `<div class="product-admin-actions"><button class="product-icon-btn sale-cash-btn" type="button" onclick="openSaleModal('${prod.id}')"><span class="sale-dollar-icon" aria-hidden="true">💵</span><span>Sell</span></button></div>` : ""}
         </div>
       </div>
     </div>
@@ -4395,6 +4554,108 @@ function renderDirectionsGuideModal() {
   document.body.appendChild(overlay);
 }
 
+function renderExportModal() {
+  $(".export-overlay")?.remove();
+  if (!state.exportModalOpen) return;
+  const owner = normalizeUserEmail();
+  const history = state.exportHistory.filter(item => item.owner === owner).slice().reverse();
+  const overlay = document.createElement("div");
+  overlay.className = "sale-overlay export-overlay";
+  overlay.onclick = event => { if (event.target === overlay) closeExportModal(); };
+  overlay.innerHTML = `<form class="sale-card" onsubmit="confirmMkekaExport(event)"><h3><i class="fas fa-file-excel text-accent"></i> Export Mkeka sales</h3><p>Name this export so you can track its version later, for example <strong>1new</strong>, <strong>1up</strong>, or <strong>2up</strong>.</p><input class="input-field" name="exportName" placeholder="e.g. 2up" pattern="[A-Za-z0-9_-]+" required autofocus><div class="export-history"><strong>Previous exports</strong>${history.length ? history.map(item => `<div class="export-history-item"><span>${escHtml(item.name)}</span><small>${new Date(item.createdAt).toLocaleString()}</small></div>`).join("") : `<div class="empty-state">No previous exports yet.</div>`}</div><div class="sale-actions"><button class="cancel-btn" type="button" onclick="closeExportModal()">Cancel</button><button class="submit-btn" type="submit"><i class="fas fa-file-excel"></i> Export</button></div></form>`;
+  document.body.appendChild(overlay);
+}
+
+function closeExportModal() { state.exportModalOpen = false; renderExportModal(); }
+
+function renderSaleModal() {
+  $(".sale-overlay")?.remove();
+  if (!state.saleProductId) return;
+  const product = state.products.find(item => item.id === state.saleProductId);
+  if (!product || !canModifyProduct(product)) { state.saleProductId = null; return; }
+  const overlay = document.createElement("div");
+  overlay.className = "sale-overlay";
+  overlay.onclick = event => { if (event.target === overlay) closeSaleModal(); };
+  overlay.innerHTML = `
+    <form class="sale-card" onsubmit="submitSale(event, '${product.id}')">
+      <h3><i class="fas fa-cash-register text-accent"></i> Record sale</h3>
+      <p>You’re selling how many <strong>${escHtml(product.title)}</strong>?</p>
+      <input class="input-field" type="number" name="quantity" value="1" min="1" step="1" inputmode="numeric" required autofocus>
+      <input type="hidden" name="hasDiscount" id="sale-has-discount" value="no">
+      <p style="margin-top:16px; margin-bottom:8px;"><strong>Unauza kwa punguzo?</strong></p>
+      <div class="sale-discount-choice">
+        <button class="cancel-btn" type="button" onclick="setSaleDiscount(false)">Hapana</button>
+        <button class="submit-btn" type="button" onclick="setSaleDiscount(true)">Ndiyo</button>
+      </div>
+      <div class="sale-discount-price" id="sale-discount-price" hidden>
+        <label class="form-label" for="sale-discounted-price">Bei ya punguzo</label>
+        <input class="input-field" id="sale-discounted-price" type="number" name="discountPrice" min="0" step="1" inputmode="decimal" placeholder="Enter discount price">
+      </div>
+      <div class="sale-actions">
+        <button class="cancel-btn" type="button" onclick="closeSaleModal()">Cancel</button>
+        <button class="submit-btn" type="submit"><i class="fas fa-cash-register"></i> Sell</button>
+      </div>
+    </form>`;
+  document.body.appendChild(overlay);
+}
+
+function openSaleModal(productId) {
+  const product = state.products.find(item => item.id === productId);
+  if (!product || !canModifyProduct(product)) { toast("You can only record sales for your own products", "error"); return; }
+  state.saleProductId = productId;
+  renderSaleModal();
+}
+
+function closeSaleModal() { state.saleProductId = null; renderSaleModal(); }
+
+function setSaleDiscount(hasDiscount) {
+  const hidden = document.getElementById("sale-has-discount");
+  const priceField = document.getElementById("sale-discount-price");
+  const priceInput = document.getElementById("sale-discounted-price");
+  if (hidden) hidden.value = hasDiscount ? "yes" : "no";
+  if (priceField) priceField.hidden = !hasDiscount;
+  if (priceInput) {
+    priceInput.required = hasDiscount;
+    if (hasDiscount) priceInput.focus();
+    else priceInput.value = "";
+  }
+}
+
+async function submitSale(event, productId) {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const quantity = Math.floor(Number(formData.get("quantity")));
+  if (!Number.isFinite(quantity) || quantity < 1) { toast("Enter a quantity of at least 1", "error"); return; }
+  const product = state.products.find(item => item.id === productId);
+  if (!product || !canModifyProduct(product)) { closeSaleModal(); return; }
+  const normalPrice = Number(product.price) || 0;
+  const hasDiscount = formData.get("hasDiscount") === "yes";
+  const discountPrice = Number(formData.get("discountPrice"));
+  if (hasDiscount && (!Number.isFinite(discountPrice) || discountPrice < 0 || discountPrice >= normalPrice)) {
+    toast("Enter a discount price lower than the selling price", "error"); return;
+  }
+  const salePrice = hasDiscount ? discountPrice : normalPrice;
+  state.products = state.products.map(item => item.id === productId ? { ...item, soldCount: Number(item.soldCount || 0) + quantity } : item);
+  state.sales.push({
+    id: generateUUID(),
+    productId: product.id,
+    productNumber: product.idNumber || "",
+    productTitle: product.title,
+    productCategory: product.category || "Uncategorized",
+    agentId: product.agentId || (state.user?.role === "agent" ? state.user.agentId : ""),
+    quantity,
+    unitPrice: salePrice,
+    normalPrice,
+    hasDiscount,
+    total: salePrice * quantity,
+    createdAt: new Date().toISOString(),
+  });
+  saveProducts();
+  saveSales();
+  closeSaleModal();
+  toast(`${quantity} ${product.title} sale${quantity === 1 ? "" : "s"} recorded`, "success");
+}
+
 function renderBagConfirmModal() {
   const existing = $(".bag-confirm-overlay");
   if (existing) existing.remove();
@@ -4433,6 +4694,10 @@ function renderMain() {
     content += renderCarousel() + renderSearch() + renderProducts();
   } else if (state.view === "dashboard") {
     content += renderDashboard();
+  } else if (state.view === "gallery") {
+    content += renderGallery();
+  } else if (state.view === "mkeka") {
+    content += renderMkeka();
   } else if (state.view === "agents") {
     content += renderAgents();
   } else if (state.view === "promo") {
@@ -4512,6 +4777,8 @@ function renderCarousel() {
 
   return `
     <section class="carousel-section">
+      <div id="carousel-pattern-layer" class="carousel-pattern-layer">${buildCarouselPatternSVG(carouselIndex)}</div>
+      <div id="carousel-gradient-layer" class="carousel-gradient-layer" style="background:${CAROUSEL_THEMES[carouselIndex % CAROUSEL_THEMES.length].gradient};"></div>
       <div class="carousel-track" style="transform:translateX(0)">${slidesHtml}</div>
       <div class="carousel-dots">${dotsHtml}</div>
     </section>`;
@@ -4601,6 +4868,181 @@ function renderProducts() {
       </h2>
       <div class="products-grid">${grid}</div>
     </section>`;
+}
+
+function renderGallery() {
+  if (!canManageProducts()) { state.view = "home"; renderMain(); return ""; }
+  const products = isAdminUser()
+    ? state.products
+    : state.products.filter(product => product.agentId === state.user?.agentId);
+  return `
+    <section class="gallery-section">
+      <h2 class="section-title"><i class="fas fa-images text-accent"></i><span>Posted Gallery</span><span class="section-count">${products.length} item${products.length !== 1 ? "s" : ""}</span></h2>
+      ${products.length ? `<div class="gallery-grid">${products.map(product => `
+        <button type="button" class="gallery-item" onclick="openGalleryProduct('${product.id}')" aria-label="Open ${escHtml(product.title)}">
+          <img src="${escHtml(product.image)}" alt="${escHtml(product.title)}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x600?text=Image'">
+          <span class="gallery-item-title">${escHtml(product.title)}</span>
+        </button>`).join("")}</div>` : `<div class="empty-state"><i class="fas fa-images"></i>No posted product images yet.</div>`}
+    </section>`;
+}
+
+function openGalleryProduct(productId) {
+  state.view = "home";
+  state.productFilter = "all";
+  state.agentProductFilterId = null;
+  state.category = "all";
+  state.search = "";
+  renderMain();
+  requestAnimationFrame(() => focusProductCard(productId));
+}
+
+function renderMkeka() {
+  if (!canManageProducts()) { state.view = "home"; renderMain(); return ""; }
+  const records = getVisibleMkekaSales();
+  const totalQuantity = records.reduce((sum, sale) => sum + Number(sale.quantity || 0), 0);
+  const totalValue = records.reduce((sum, sale) => sum + Number(sale.total || 0), 0);
+  const totalPages = Math.max(1, Math.ceil(records.length / 10));
+  state.salesPage = Math.min(state.salesPage, totalPages);
+  const pageRecords = records.slice().reverse().slice((state.salesPage - 1) * 10, state.salesPage * 10);
+  const grouped = Object.values(records.reduce((all, sale) => {
+    const key = sale.productTitle || "Product";
+    all[key] ||= { title: key, quantity: 0, count: 0 };
+    all[key].quantity += Number(sale.quantity || 0); all[key].count += 1; return all;
+  }, {}));
+  return `
+    <section class="mkeka-section">
+      <h2 class="section-title"><i class="fas fa-receipt text-accent"></i><span>Mkeka Sales Record</span></h2>
+      <div class="mkeka-card">
+        <div class="mkeka-toolbar">
+          <label class="mkeka-search"><i class="fas fa-search"></i><input type="search" value="${escHtml(state.salesSearch)}" placeholder="Search sales..." oninput="handleSalesSearch(this.value)"></label>
+          <div class="mkeka-toolbar-controls">
+            <label class="mkeka-filter-control"><span>Filter by</span><select onchange="handleSalesFilter(this.value)" aria-label="Filter sales records"><option value="product" ${state.salesFilter === "product" ? "selected" : ""}>Product name</option><option value="product-id" ${state.salesFilter === "product-id" ? "selected" : ""}>Product ID</option><option value="date" ${state.salesFilter === "date" ? "selected" : ""}>Date</option><option value="all" ${state.salesFilter === "all" ? "selected" : ""}>All fields</option></select></label>
+            <button type="button" class="product-icon-btn location-btn" onclick="exportMkekaSales()"><i class="fas fa-file-excel"></i><span>Export Excel</span></button>
+            <span class="mkeka-count">${records.length} sale${records.length === 1 ? "" : "s"}</span>
+          </div>
+        </div>
+        <div class="mkeka-table-wrap">
+          <table class="mkeka-table"><thead><tr><th>Product ID</th><th>Product name</th><th>Category</th><th>Selling price</th><th>Sold price</th><th>Quantity sold</th>${isAdminUser() ? "<th>Sold by</th>" : ""}<th>Date</th><th>Actions</th></tr></thead>
+          <tbody>${records.length ? pageRecords.map(sale => { const product = getSaleProductMeta(sale); return `<tr><td>${escHtml(product.idNumber || "-")}</td><td><strong>${escHtml(product.title)}</strong></td><td>${escHtml(product.category)}</td><td>${formatPrice(sale.normalPrice ?? sale.unitPrice)}</td><td>${formatPrice(sale.unitPrice)}</td><td>${Number(sale.quantity || 0)}</td>${isAdminUser() ? `<td>${escHtml(getSaleAgentName(sale))}</td>` : ""}<td>${new Date(sale.createdAt).toLocaleString()}</td><td><button class="agent-action-btn primary" onclick="editMkekaSale('${sale.id}')">Edit</button> <button class="agent-action-btn mkeka-delete" onclick="deleteMkekaSale('${sale.id}')">Delete</button></td></tr>`; }).join("") : `<tr><td colspan="${isAdminUser() ? 9 : 8}" class="empty-state">No sales match your filter.</td></tr>`}</tbody></table>
+        </div>
+        <div class="mkeka-pagination">${Array.from({ length: totalPages }, (_, index) => `<button class="mkeka-page-btn ${state.salesPage === index + 1 ? "active" : ""}" onclick="setMkekaPage(${index + 1})">${index + 1}</button>`).join("")}</div>
+      </div>
+      <div class="mkeka-total"><div><span>Total sales value</span><strong>${formatPrice(totalValue)}</strong></div><div><span>Products sold</span><strong>${totalQuantity}</strong></div></div>
+      <div class="mkeka-bottom"><section class="mkeka-card mkeka-summary"><div class="mkeka-summary-header"><h3>Product sale summary</h3><span class="mkeka-summary-total">${grouped.length}</span></div><div class="mkeka-product-list">${grouped.length ? grouped.map(item => `<div class="mkeka-product-row"><strong>${escHtml(item.title)}</strong><span>${item.quantity} sold · ${item.count} time${item.count === 1 ? "" : "s"}</span></div>`).join("") : `<div class="empty-state">No records yet.</div>`}</div></section><aside class="mkeka-danger"><h3>Data Management</h3><p>Delete every sale record saved on this device.</p><button class="cancel-btn" onclick="clearMkekaSales()"><i class="fas fa-trash"></i> Clean Data</button></aside></div>
+    </section>`;
+}
+
+function handleSalesSearch(value) { state.salesSearch = value; state.salesPage = 1; renderMain(); }
+function handleSalesFilter(value) { state.salesFilter = value; state.salesPage = 1; renderMain(); }
+function setMkekaPage(page) { state.salesPage = page; renderMain(); }
+
+function getVisibleMkekaSales() {
+  const ownSales = isAdminUser() ? state.sales : state.sales.filter(sale => sale.agentId === state.user?.agentId);
+  const term = state.salesSearch.trim().toLowerCase();
+  return ownSales.filter(sale => {
+    const meta = getSaleProductMeta(sale);
+    const product = String(meta.title || "").toLowerCase();
+    const productId = String(meta.idNumber || "").toLowerCase();
+    const date = new Date(sale.createdAt).toLocaleString().toLowerCase();
+    return state.salesFilter === "date" ? date.includes(term)
+      : state.salesFilter === "product-id" ? productId.includes(term)
+      : state.salesFilter === "all" ? `${product} ${productId} ${meta.category} ${date} ${sale.quantity} ${sale.total}`.toLowerCase().includes(term)
+      : product.includes(term);
+  });
+}
+
+function getSaleProductMeta(sale) {
+  const product = state.products.find(item => item.id === sale.productId);
+  return {
+    idNumber: sale.productNumber || product?.idNumber || "",
+    title: sale.productTitle || product?.title || "Product",
+    category: sale.productCategory || product?.category || "Uncategorized",
+  };
+}
+
+function getSaleAgentName(sale) {
+  if (!sale.agentId) return "Admin / unassigned";
+  const agent = state.agents.find(item => item.id === sale.agentId);
+  return agent?.fullName || agent?.email || "Agent";
+}
+
+function editMkekaSale(id) {
+  const sale = state.sales.find(item => item.id === id);
+  if (!sale) return;
+  const value = window.prompt(`How many ${sale.productTitle} were sold?`, String(sale.quantity));
+  if (value === null) return;
+  const quantity = Math.floor(Number(value));
+  if (!Number.isFinite(quantity) || quantity < 1) { toast("Enter a quantity of at least 1", "error"); return; }
+  state.sales = state.sales.map(item => item.id === id ? { ...item, quantity, total: quantity * Number(item.unitPrice || 0) } : item);
+  saveSales(); renderMain(); toast("Sale record updated", "success");
+}
+
+function deleteMkekaSale(id) {
+  const sale = state.sales.find(item => item.id === id);
+  if (!sale || !window.confirm(`Delete the ${sale.productTitle} sale record?`)) return;
+  state.sales = state.sales.filter(item => item.id !== id);
+  saveSales(); renderMain(); toast("Sale record deleted", "success");
+}
+
+function clearMkekaSales() {
+  if (!window.confirm("Delete all Mkeka sale records on this device? This cannot be undone.")) return;
+  const canClear = isAdminUser() ? () => true : sale => sale.agentId === state.user?.agentId;
+  state.sales = state.sales.filter(sale => !canClear(sale));
+  saveSales(); state.salesPage = 1; renderMain(); toast("Sale records cleared", "success");
+}
+
+function exportMkekaSales() {
+  const sales = getVisibleMkekaSales();
+  if (!sales.length) { toast("There are no sales to export", "error"); return; }
+  state.exportModalOpen = true;
+  renderExportModal();
+}
+
+function confirmMkekaExport(event) {
+  event.preventDefault();
+  const exportName = String(new FormData(event.target).get("exportName") || "").trim();
+  if (!/^[A-Za-z0-9_-]+$/.test(exportName)) { toast("Use letters, numbers, hyphens, or underscores only", "error"); return; }
+  createMkekaExport(exportName);
+}
+
+function createMkekaExport(exportName) {
+  const sales = getVisibleMkekaSales();
+  if (!sales.length) { closeExportModal(); toast("There are no sales to export", "error"); return; }
+  const rows = sales.map((sale, index) => ({
+    "#": index + 1,
+    "Product ID": getSaleProductMeta(sale).idNumber,
+    "Product Name": getSaleProductMeta(sale).title,
+    "Product Category": getSaleProductMeta(sale).category,
+    "Sold By": getSaleAgentName(sale),
+    "Quantity Sold": Number(sale.quantity || 0),
+    "Selling Price (TZS)": Number(sale.normalPrice ?? sale.unitPrice ?? 0),
+    "Sold Price (TZS)": Number(sale.unitPrice || 0),
+    "Sale Total (TZS)": Number(sale.total || 0),
+    "Date": new Date(sale.createdAt).toLocaleString(),
+  }));
+  const date = new Date();
+  const dateStamp = date.toISOString().slice(0, 10);
+  const filename = `mauzo-ya-${exportName}_${dateStamp}`;
+  if (window.XLSX) {
+    const sheet = XLSX.utils.json_to_sheet(rows);
+    XLSX.utils.sheet_add_aoa(sheet, [[], ["Export date", date.toLocaleString()], ["Export name", exportName], ["Records", sales.length]], { origin: -1 });
+    sheet["!cols"] = [{ wch: 6 }, { wch: 14 }, { wch: 28 }, { wch: 20 }, { wch: 18 }, { wch: 16 }, { wch: 16 }, { wch: 18 }, { wch: 18 }, { wch: 23 }];
+    const book = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(book, sheet, "Sales");
+    XLSX.writeFile(book, `${filename}.xlsx`);
+  } else {
+    const headers = Object.keys(rows[0]);
+    const csv = [headers.join(","), ...rows.map(row => headers.map(key => `"${String(row[key]).replaceAll('"', '""')}"`).join(",")), "", `Export date,${date.toLocaleString()}`, `Export name,${exportName}`, `Records,${sales.length}`].join("\n");
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    link.download = `${filename}.csv`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  }
+  state.exportHistory.push({ name: exportName, filename: `${filename}.xlsx`, owner: normalizeUserEmail(), createdAt: date.toISOString(), records: sales.length });
+  saveExportHistory();
+  closeExportModal();
+  toast(`${sales.length} sale record${sales.length === 1 ? "" : "s"} exported`, "success");
 }
 
 function renderDashboard() {
@@ -6561,10 +7003,35 @@ function closeImageUploadChoice() {
 
 function chooseProductImageMode(mode) {
   closeImageUploadChoice();
-  const input = getProductImageInput();
-  input.multiple = mode === "multiple";
-  input.value = "";
   imageUploadSelectionMode = mode;
+  openProductImageSourceChoice(mode);
+}
+
+function openProductImageSourceChoice(mode) {
+  closeImageUploadChoice();
+  const overlay = document.createElement("div");
+  overlay.className = "image-choice-overlay";
+  overlay.onclick = event => { if (event.target === overlay) closeImageUploadChoice(); };
+  overlay.innerHTML = `
+    <div class="image-choice-card" onclick="event.stopPropagation()">
+      <h4>Add ${mode === "multiple" ? "images" : "an image"}</h4>
+      <p>Would you like to take a picture now or choose one from your files?</p>
+      <div class="image-choice-buttons">
+        <button type="button" class="submit-btn" onclick="chooseProductImageSource('camera')"><i class="fas fa-camera"></i> Use Camera</button>
+        <button type="button" class="submit-btn" onclick="chooseProductImageSource('files')"><i class="fas fa-folder-open"></i> My Files</button>
+      </div>
+      <button type="button" class="auth-switch" onclick="openImageUploadChoice()">Back</button>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+function chooseProductImageSource(source) {
+  closeImageUploadChoice();
+  const input = getProductImageInput();
+  input.multiple = imageUploadSelectionMode === "multiple";
+  if (source === "camera") input.setAttribute("capture", "environment");
+  else input.removeAttribute("capture");
+  input.value = "";
   input.click();
 }
 
@@ -6771,6 +7238,29 @@ function updateCarousel() {
   const dots   = $$(".carousel-dot");
   if (track) track.style.transform = `translateX(-${carouselIndex * 100}%)`;
   dots.forEach((dot, i) => dot.classList.toggle("active", i === carouselIndex));
+  applyCarouselTheme(carouselIndex);
+}
+
+function buildCarouselPatternSVG(index) {
+  const theme = CAROUSEL_THEMES[index % CAROUSEL_THEMES.length] || CAROUSEL_THEMES[0];
+  const [r, g, b] = theme.patternColor.split(",").map(value => Number(value.trim()) || 0);
+  const opacity = theme.patternOpacity || .12;
+  return `<svg viewBox="0 0 800 450" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><filter id="turing-filter-${index}"><feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="5" seed="${index + 1}" result="noise"/><feColorMatrix type="matrix" values="0 0 0 0 ${r / 255} 0 0 0 0 ${g / 255} 0 0 0 0 ${b / 255} 0 0 0 ${opacity} 0" result="colored"/><feBlend in="SourceGraphic" in2="colored" mode="multiply"/></filter></defs><rect width="100%" height="100%" fill="rgba(${r}, ${g}, ${b}, ${opacity})" filter="url(#turing-filter-${index})"/></svg>`;
+}
+
+function applyCarouselTheme(index) {
+  const gradientLayer = document.getElementById("carousel-gradient-layer");
+  const patternLayer = document.getElementById("carousel-pattern-layer");
+  if (!gradientLayer || !patternLayer) return;
+  const theme = CAROUSEL_THEMES[index % CAROUSEL_THEMES.length] || CAROUSEL_THEMES[0];
+  gradientLayer.classList.add("fading");
+  patternLayer.classList.add("fading");
+  setTimeout(() => {
+    gradientLayer.style.background = theme.gradient;
+    patternLayer.innerHTML = buildCarouselPatternSVG(index);
+    gradientLayer.classList.remove("fading");
+    patternLayer.classList.remove("fading");
+  }, 320);
 }
 
 // ====== POLLING ======
@@ -6791,10 +7281,13 @@ function startPollTimer() {
 
 // ====== INIT ======
 async function init() {
+  restoreTheme();
   state.settings = loadSettings();
   state.products  = loadProducts();
   state.agents    = loadAgents();
   state.promotions = loadPromotions();
+  state.sales = loadSales();
+  state.exportHistory = loadExportHistory();
   state.promoArchiveOpen = loadPromoArchivePreference();
   state.user      = loadSession();
   state.bagProductIds = loadBagFromLocal(state.user);
