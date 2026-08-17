@@ -5031,11 +5031,10 @@ function createMkekaExport(exportName) {
     const sheet = XLSX.utils.json_to_sheet(rows);
     const lastRecordRow = rows.length + 1;
     XLSX.utils.sheet_add_aoa(sheet, [
-      ["", "", "", "", "", "", "", "Total Sales", { f: `SUM(I2:I${lastRecordRow})` }],
       [],
       ["Export date", date.toLocaleString()],
       ["Export name", exportName],
-      ["Records", sales.length],
+      ["Records", sales.length, "", "", "", "", "", "Total Sales", { f: `SUM(I2:I${lastRecordRow})` }],
     ], { origin: -1 });
     sheet["!cols"] = [{ wch: 6 }, { wch: 14 }, { wch: 28 }, { wch: 20 }, { wch: 18 }, { wch: 16 }, { wch: 16 }, { wch: 18 }, { wch: 18 }, { wch: 23 }];
     const book = XLSX.utils.book_new();
@@ -5043,8 +5042,8 @@ function createMkekaExport(exportName) {
     XLSX.writeFile(book, `${filename}.xlsx`);
   } else {
     const headers = Object.keys(rows[0]);
-    const csvTotalRow = ["", "", "", "", "", "", "", "Total Sales", salesGrandTotal, ""].join(",");
-    const csv = [headers.join(","), ...rows.map(row => headers.map(key => `"${String(row[key]).replaceAll('"', '""')}"`).join(",")), csvTotalRow, "", `Export date,${date.toLocaleString()}`, `Export name,${exportName}`, `Records,${sales.length}`].join("\n");
+    const recordsSummaryRow = ["Records", sales.length, "", "", "", "", "", "Total Sales", salesGrandTotal, ""].join(",");
+    const csv = [headers.join(","), ...rows.map(row => headers.map(key => `"${String(row[key]).replaceAll('"', '""')}"`).join(",")), "", `Export date,${date.toLocaleString()}`, `Export name,${exportName}`, recordsSummaryRow].join("\n");
     const link = document.createElement("a");
     link.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
     link.download = `${filename}.csv`;
