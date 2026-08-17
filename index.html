@@ -3063,8 +3063,8 @@ function saveExportHistory() {
   catch (error) { console.warn("saveExportHistory failed:", error); }
 }
 
-// NOTE: loadUsers / saveUsers are for non-admin local accounts only.
-// Admin authentication goes through Supabase (fetchAdminUser below).
+// NOTE: loadUsers / saveUsers cache non-admin accounts locally as a fallback.
+// Customer accounts are also stored in Supabase (customer_users) when available.
 function loadUsers() {
   try {
     const raw = localStorage.getItem(USERS_KEY);
@@ -3297,6 +3297,47 @@ async function fetchAgentByEmail(email) {
     if (error) { console.warn("Agent email lookup error:", error.message); return null; }
     return data ? mapSupabaseAgent(data) : null;
   } catch (err) { console.warn("Agent email lookup failed:", err); return null; }
+}
+
+function mapSupabaseCustomerUser(user) {
+  if (!user) return null;
+  return {
+    id: user.id,
+    fullName: user.full_name || user.fullName || "",
+    email: user.email,
+    password: user.password || "",
+    role: user.role || "user",
+  };
+}
+
+async function fetchCustomerUser(email, password) {
+  if (!hasRemoteBackend()) return null;
+  try {
+    const cleanEmail = email.toLowerCase().trim();
+    const { data, error } = await supabaseClient
+      .from("customer_users")
+      .select("id, full_name, email, password, role")
+      .ilike("email", cleanEmail)
+      .eq("password", password)
+      .maybeSingle();
+    if (error) { console.warn("Customer auth error:", error.message); return null; }
+    return mapSupabaseCustomerUser(data);
+  } catch (err) {
+    console.warn("Customer auth fetch failed:", err);
+    return null;
+  }
+}
+
+async function createCustomerUser({ fullName, email, password }) {
+  if (!hasRemoteBackend()) return null;
+  const cleanEmail = email.toLowerCase().trim();
+  const { data, error } = await supabaseClient
+    .from("customer_users")
+    .insert([{ full_name: fullName.trim(), email: cleanEmail, password, role: "user" }])
+    .select("id, full_name, email, password, role")
+    .single();
+  if (error) throw error;
+  return mapSupabaseCustomerUser(data);
 }
 
 function upsertAgentCache(agent) {
@@ -6295,7 +6336,23 @@ async function handleAuthSubmit() {
         }
       }
 
-      // 3. Fallback: local non-admin accounts
+      // 3. Check Supabase customer accounts.
+      const customerUser = await fetchCustomerUser(cleanEmail, password);
+      if (customerUser) {
+        state.user = {
+          email: customerUser.email,
+          role: "user",
+          fullName: customerUser.fullName || customerUser.email.split("@")[0],
+        };
+        saveSession(state.user);
+        state.bagProductIds = await loadBag(state.user);
+        toast(`Welcome, ${state.user.email}`, "success");
+        closeAuth();
+        render();
+        return;
+      }
+
+      // 4. Local customer fallback for offline use and older accounts.
       const users = loadUsers();
       const foundUser = users.find(u => u.email.toLowerCase() === cleanEmail && u.password === password);
       if (foundUser) {
@@ -6316,19 +6373,43 @@ async function handleAuthSubmit() {
       hideLoadingOverlay();
     }
   } else {
-    // Sign up (local non-admin accounts)
+    // Sign up customer accounts in Supabase, with local storage as offline fallback.
     const fullName        = $("#auth-name")?.value?.trim();
     const confirmPassword = $("#auth-confirm-password")?.value?.trim();
     if (!fullName) { toast("Please enter your full name", "error"); return; }
     if (password.length < 6) { toast("Password must be at least 6 characters", "error"); return; }
     if (password !== confirmPassword) { toast("Passwords do not match", "error"); return; }
 
+    const cleanEmail = email.toLowerCase().trim();
     const users = loadUsers();
-    if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) { toast("User already exists", "error"); return; }
-    users.push({ fullName, email, password, role: "user" });
-    saveUsers(users);
-    toast("Account created — please login", "success");
-    toggleAuthMode();
+    if (!hasRemoteBackend() && users.find(u => u.email.toLowerCase() === cleanEmail)) {
+      toast("User already exists", "error");
+      return;
+    }
+
+    try {
+      let customer = null;
+      if (hasRemoteBackend()) {
+        showLoadingOverlay("Creating your account…");
+        customer = await createCustomerUser({ fullName, email: cleanEmail, password });
+      }
+      if (!users.some(user => user.email.toLowerCase() === cleanEmail)) {
+        users.push(customer || { fullName, email: cleanEmail, password, role: "user" });
+      }
+      saveUsers(users);
+      toast(customer ? "Account created and saved to the database — please login" : "Account created — please login", "success");
+      toggleAuthMode();
+    } catch (err) {
+      console.error("Customer signup error:", err);
+      const message = String(err?.message || "");
+      if (err?.code === "23505" || message.toLowerCase().includes("duplicate")) {
+        toast("User already exists", "error");
+      } else {
+        toast("Account was not saved to the database. Run the customer-users SQL setup, then try again.", "error");
+      }
+    } finally {
+      hideLoadingOverlay();
+    }
   }
 }
 
